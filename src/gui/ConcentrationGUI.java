@@ -28,7 +28,7 @@ public class ConcentrationGUI extends Application
         implements Observer< ConcentrationModel, Object > {
 
     /**
-     * DOCUMENTATION HERE
+     * process command line args, pre GUI setup
      *
      * @throws Exception
      */
@@ -38,7 +38,7 @@ public class ConcentrationGUI extends Application
     }
 
     /**
-     * YOUR DOCUMENTATION HERE
+     * start constructs the layout for the game
      *
      * @param stage
      * @throws Exception
@@ -69,10 +69,12 @@ public class ConcentrationGUI extends Application
     }
 
     /**
-     * YOUR DOCUMENTATION HERE
+     * Update the UI. This method is called by an object in the game model. The contents of the buttons are changed
+     * based on the card faces in the model. Changes in the the text in the labels may also occur based on the changed
+     * model state.
      *
-     * @param concentrationModel
-     * @param o
+     * @param concentrationModel the model object that knows the current board state
+     * @param o null ⇒ non-cheating mode; non-null ⇒ cheating mode
      */
     @Override
     public void update( ConcentrationModel concentrationModel, Object o ) {
