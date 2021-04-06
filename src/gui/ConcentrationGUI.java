@@ -40,7 +40,7 @@ public class ConcentrationGUI extends Application
     /**
      * list of pokemon images that will appear on the face of each card
      */
-    private ArrayList<ImageView> pokemon;
+    private ArrayList<ImageView> images;
 
     private Label instructions;
     private Label moves;
@@ -55,8 +55,6 @@ public class ConcentrationGUI extends Application
         System.out.println("init: Initialize and connect to model!");
         this.model = new ConcentrationModel();
         this.model.addObserver( this );
-        //start(new Stage());
-        //update( this.model, null );
     }
 
     /**
@@ -84,16 +82,16 @@ public class ConcentrationGUI extends Application
         this.instructions = new Label("Select the first card.");
         HBox buttons = new HBox();
         this.cardList = new ArrayList<>();
-        this.pokemon = new ArrayList<>();
+        this.images = new ArrayList<>();
 
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/abra.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/bulbasaur.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/charmander.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/jigglypuff.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/meowth.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/pikachu.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/squirtle.png"))));
-        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/venomoth.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/abra.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/bulbasaur.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/charmander.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/jigglypuff.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/meowth.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/pikachu.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/squirtle.png"))));
+        this.images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/venomoth.png"))));
 
         buttons.getChildren().addAll(reset, undo, cheat, moves);
         buttons.setAlignment(Pos.BASELINE_CENTER);
@@ -145,7 +143,8 @@ public class ConcentrationGUI extends Application
         for (int i = 0; i < cardList.size(); i++) {
             //flip a card
             if (this.model.getCards().get(i).isFaceUp()) {
-                cardList.get(i).setGraphic(this.pokemon.get(i));
+                int index = this.model.getCards().get(i).getNumber();
+                cardList.get(i).setGraphic(this.images.get(index));
             }
             if (!this.model.getCards().get(i).isFaceUp()) {
                 cardList.get(i).setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/pokeball.png"))));
