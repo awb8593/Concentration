@@ -33,6 +33,19 @@ public class ConcentrationGUI extends Application
     private ConcentrationModel model;
 
     /**
+     * list that the cards will be in
+     */
+    private ArrayList<Button> cardList;
+
+    /**
+     * list of pokemon images that will appear on the face of each card
+     */
+    private ArrayList<ImageView> pokemon;
+
+    private Label instructions;
+    private Label moves;
+
+    /**
      * process command line args, pre GUI setup
      *
      * @throws Exception
@@ -41,6 +54,17 @@ public class ConcentrationGUI extends Application
     public void init() throws Exception {
         System.out.println("init: Initialize and connect to model!");
         this.model = new ConcentrationModel();
+        this.model.addObserver( this );
+        //start(new Stage());
+        //update( this.model, null );
+    }
+
+    /**
+     * Initialize the view
+     */
+    public void initializeView() {
+        //this.model.addObserver( this );
+        update( this.model, null );
     }
 
     /**
@@ -56,10 +80,20 @@ public class ConcentrationGUI extends Application
         Button reset = new Button("Reset");
         Button undo = new Button("Undo");
         Button cheat = new Button("Cheat");
-        int movesCount = 0;
-        Label moves = new Label("Moves: " + movesCount);
-        Label instructions = new Label("Select the first card.");
+        this.moves = new Label("Moves: " + this.model.getMoveCount());
+        this.instructions = new Label("Select the first card.");
         HBox buttons = new HBox();
+        this.cardList = new ArrayList<>();
+        this.pokemon = new ArrayList<>();
+
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/abra.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/bulbasaur.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/charmander.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/jigglypuff.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/meowth.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/pikachu.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/squirtle.png"))));
+        this.pokemon.add(new ImageView(new Image(getClass().getResourceAsStream("resources/venomoth.png"))));
 
         buttons.getChildren().addAll(reset, undo, cheat, moves);
         buttons.setAlignment(Pos.BASELINE_CENTER);
@@ -69,6 +103,7 @@ public class ConcentrationGUI extends Application
             for (int col = 0; col < 4; col++) {
                 ImageView card = new ImageView(new Image(getClass().getResourceAsStream("resources/pokeball.png")));
                 Button cardButton = new Button();
+                this.cardList.add(cardButton);
                 int finalRow = row;
                 int finalCol = col;
                 cardButton.setOnAction(e -> this.model.selectCard(finalRow * 4 + finalCol));
@@ -77,9 +112,16 @@ public class ConcentrationGUI extends Application
             }
         }
 
-        reset.setOnAction(reset.getOnAction());
-        undo.setOnAction(undo.getOnAction());
-        cheat.setOnAction(cheat.getOnAction());
+        reset.setOnAction((event) -> {
+            this.model.reset();
+        });
+        undo.setOnAction((event) -> {
+            this.model.undo();
+        });
+        cheat.setOnAction((event) -> {
+            this.model.cheat();
+        });
+
 
         layout.setTop(instructions);
         layout.setCenter(cards);
@@ -99,12 +141,29 @@ public class ConcentrationGUI extends Application
      */
     @Override
     public void update( ConcentrationModel concentrationModel, Object o ) {
+        this.moves.setText(String.valueOf(this.model.getMoveCount()));
+        for (int i = 0; i < cardList.size(); i++) {
+            //flip a card
+            if (this.model.getCards().get(i).isFaceUp()) {
+                cardList.get(i).setGraphic(this.pokemon.get(i));
+            }
+            if (!this.model.getCards().get(i).isFaceUp()) {
+                cardList.get(i).setGraphic(new ImageView(new Image(getClass().getResourceAsStream("resources/pokeball.png"))));
+            }
+        }
+        if (this.model.howManyCardsUp() == 0) {
+            this.instructions.setText("Select the First card.");
+        } else if (this.model.howManyCardsUp() == 1) {
+            this.instructions.setText("Select the Second card.");
+        } else if (this.model.howManyCardsUp() == 2) {
+            this.instructions.setText("No Match: Undo or select a card.");
+        }
+
         // display a win if all cards are face up (not cheating)
         if ( this.model.getCards().stream().allMatch( face -> face.isFaceUp() ) ) {
             System.out.println( "YOU WIN!" );
         }
     }
-
 
 
     /**
