@@ -28,6 +28,11 @@ public class ConcentrationGUI extends Application
         implements Observer< ConcentrationModel, Object > {
 
     /**
+     * The model for the view and controller.
+     */
+    private ConcentrationModel model;
+
+    /**
      * process command line args, pre GUI setup
      *
      * @throws Exception
@@ -35,13 +40,13 @@ public class ConcentrationGUI extends Application
     @Override
     public void init() throws Exception {
         System.out.println("init: Initialize and connect to model!");
+        this.model = new ConcentrationModel();
     }
 
     /**
      * start constructs the layout for the game
      *
-     * @param stage
-     * @throws Exception
+     * @param stage the stage of the gui, which holds the border pane, title, buttons, etc
      */
     @Override
     public void start( Stage stage ) throws Exception {
@@ -51,18 +56,34 @@ public class ConcentrationGUI extends Application
         Button reset = new Button("Reset");
         Button undo = new Button("Undo");
         Button cheat = new Button("Cheat");
+        int movesCount = 0;
+        Label moves = new Label("Moves: " + movesCount);
+        Label instructions = new Label("Select the first card.");
+        HBox buttons = new HBox();
 
-        layout.getChildren().addAll(title, cards, reset, undo, cheat);
+        buttons.getChildren().addAll(reset, undo, cheat, moves);
+        buttons.setAlignment(Pos.BASELINE_CENTER);
         stage.setScene(new Scene(layout));
         stage.setTitle("Concentration");
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 ImageView card = new ImageView(new Image(getClass().getResourceAsStream("resources/pokeball.png")));
                 Button cardButton = new Button();
+                int finalRow = row;
+                int finalCol = col;
+                cardButton.setOnAction(e -> this.model.selectCard(finalRow * 4 + finalCol));
                 cardButton.setGraphic(card);
                 cards.add(cardButton, row, col);
             }
         }
+
+        reset.setOnAction(reset.getOnAction());
+        undo.setOnAction(undo.getOnAction());
+        cheat.setOnAction(cheat.getOnAction());
+
+        layout.setTop(instructions);
+        layout.setCenter(cards);
+        layout.setBottom(buttons);
 
         stage.show();
 
@@ -78,8 +99,12 @@ public class ConcentrationGUI extends Application
      */
     @Override
     public void update( ConcentrationModel concentrationModel, Object o ) {
-
+        // display a win if all cards are face up (not cheating)
+        if ( this.model.getCards().stream().allMatch( face -> face.isFaceUp() ) ) {
+            System.out.println( "YOU WIN!" );
+        }
     }
+
 
 
     /**
