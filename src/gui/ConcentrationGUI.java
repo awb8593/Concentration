@@ -36,6 +36,7 @@ public class ConcentrationGUI extends Application
      * list that the cards will be in
      */
     private ArrayList<Button> cardList;
+    private ArrayList<Button> cheatCardList;
 
     /**
      * list of pokemon images that will appear on the face of each card
@@ -130,6 +131,45 @@ public class ConcentrationGUI extends Application
     }
 
     /**
+     * opens a new window showing the correct order of cards
+     * @param cheatCards An ArrayList containing each of the cards in the correct order they are placed in
+     * @param stage the stage used in the GUI to display the cards
+     */
+    public void cheatWindow(ArrayList< Card > cheatCards, Stage stage) {
+        BorderPane layout = new BorderPane();
+        GridPane cards = new GridPane();
+        this.cheatCardList = new ArrayList<>();
+        ArrayList<ImageView> images = new ArrayList<>();
+
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/abra.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/bulbasaur.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/charmander.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/jigglypuff.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/meowth.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/pikachu.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/squirtle.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("resources/venomoth.png"))));
+
+        stage.setScene(new Scene(layout));
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                stage.setTitle("Cheat Window!");
+                Button cardButton = new Button();
+                this.cheatCardList.add(cardButton);
+                cards.add(cardButton, row, col);
+            }
+        }
+        for (int i = 0; i < cheatCardList.size(); i++){
+            Button cardButton = this.cheatCardList.get(i);
+            int index = cheatCards.get(i).getNumber();
+            cardButton.setGraphic(images.get(index));
+        }
+
+        layout.setCenter(cards);
+        stage.show();
+    }
+
+    /**
      * Update the UI. This method is called by an object in the game model. The contents of the buttons are changed
      * based on the card faces in the model. Changes in the the text in the labels may also occur based on the changed
      * model state.
@@ -156,6 +196,11 @@ public class ConcentrationGUI extends Application
             this.instructions.setText("Select the Second card.");
         } else if (this.model.howManyCardsUp() == 2) {
             this.instructions.setText("No Match: Undo or select a card.");
+        }
+
+        //cheat
+        if(o != null) {
+            cheatWindow(this.model.getCheat(), new Stage());
         }
 
         // display a win if all cards are face up (not cheating)
