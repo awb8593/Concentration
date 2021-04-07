@@ -43,6 +43,9 @@ public class ConcentrationGUI extends Application
      */
     private ArrayList<ImageView> images;
 
+    /**
+     * labels that are initalized in start and updated in update as the game is played
+     */
     private Label instructions;
     private Label moves;
 
@@ -179,7 +182,7 @@ public class ConcentrationGUI extends Application
      */
     @Override
     public void update( ConcentrationModel concentrationModel, Object o ) {
-        this.moves.setText(String.valueOf(this.model.getMoveCount()));
+        this.moves.setText("Moves: " + String.valueOf(this.model.getMoveCount()));
         for (int i = 0; i < cardList.size(); i++) {
             //flip a card
             if (this.model.getCards().get(i).isFaceUp()) {
