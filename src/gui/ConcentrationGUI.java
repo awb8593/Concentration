@@ -51,8 +51,8 @@ public class ConcentrationGUI extends Application
 
     /**
      *
-     * @param i
-     * @return
+     * @param i the index of the image I am getting from the image list
+     * @return returns an ImageView of the image selected from the list of pictures
      */
     private ImageView getImageView(int i) {
         return new ImageView(this.images.get(i));
