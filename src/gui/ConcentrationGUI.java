@@ -74,7 +74,6 @@ public class ConcentrationGUI extends Application
      * Initialize the view
      */
     public void initializeView() {
-        //this.model.addObserver( this );
         update( this.model, null );
     }
 
@@ -86,7 +85,7 @@ public class ConcentrationGUI extends Application
     @Override
     public void start( Stage stage ) throws Exception {
         BorderPane layout = new BorderPane();
-        Text title = new Text("Concentration");
+        Text title = new Text("Gotta Match Em All!");
         GridPane cards = new GridPane();
         Button reset = new Button("Reset");
         Button undo = new Button("Undo");
@@ -97,19 +96,19 @@ public class ConcentrationGUI extends Application
         this.cardList = new ArrayList<>();
         this.images = new ArrayList<>();
 
-        this.images.add(new Image(getClass().getResourceAsStream("resources/abra.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/bulbasaur.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/charmander.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/jigglypuff.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/meowth.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/pikachu.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/squirtle.png")));
-        this.images.add(new Image(getClass().getResourceAsStream("resources/venomoth.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/cinderace.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/ditto.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/grimm.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/luxray.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/obstagoon.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/sceptile.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/tapu.png")));
+        this.images.add(new Image(getClass().getResourceAsStream("resources/zarude.png")));
 
         buttons.getChildren().addAll(reset, undo, cheat, moves);
         buttons.setAlignment(Pos.BASELINE_CENTER);
         stage.setScene(new Scene(layout));
-        stage.setTitle("Concentration");
+        stage.setTitle("Gotta Match Em All!");
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 ImageView card = new ImageView(new Image(getClass().getResourceAsStream("resources/pokeball.png")));
@@ -153,14 +152,14 @@ public class ConcentrationGUI extends Application
         this.cheatCardList = new ArrayList<>();
         ArrayList<Image> images = new ArrayList<>();
 
-        images.add(new Image(getClass().getResourceAsStream("resources/abra.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/bulbasaur.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/charmander.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/jigglypuff.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/meowth.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/pikachu.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/squirtle.png")));
-        images.add(new Image(getClass().getResourceAsStream("resources/venomoth.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/cinderace.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/ditto.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/grimm.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/luxray.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/obstagoon.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/sceptile.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/tapu.png")));
+        images.add(new Image(getClass().getResourceAsStream("resources/zarude.png")));
 
         stage.setScene(new Scene(layout));
         for (int row = 0; row < 4; row++) {
